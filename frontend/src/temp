@@ -1,0 +1,45 @@
+import ScrollTop from './ScrollTop';
+import Homepage from './Homepage';
+import Loginpage from './Loginpage';
+import Profile from './Profile';
+import ButtonAppBar from './Navbar_2';
+import './App.css';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import SignUp from './SignUp';
+
+function App() {
+  const [loggedIn, setLoggedIn] = React.useState(false);
+
+  let Routes;
+
+  if (loggedIn) {
+    Routes = 
+    <Routes>
+      <Route path='/' element={<Homepage loggedIn={loggedIn}/>} />
+      <Route path='/profile' element={<Profile loggedIn={loggedIn}/>} />
+    </Routes>
+  } else {
+    Routes = 
+      <Routes>
+        <Route path='/' element={<Homepage loggedIn={loggedIn}/>} />
+        <Route path='/login' element={<Loginpage loggedIn={loggedIn}/>} />
+
+        
+        {/* delete this later */} <Route path='/profile' element={<Profile loggedIn={loggedIn}/>} /> 
+
+        <Route path='/signup' element={<SignUp loggedIn={loggedIn}/>} />
+      </Routes>
+  }
+
+  return (
+    <div className="App">
+      <ButtonAppBar />
+      <ScrollTop /> {/*listens for change in route; if detected, scroll to top of page; does not render any HTML*/}
+      <div className='spacer'></div>
+      {Routes}
+    </div>
+  );
+}
+
+export default App;

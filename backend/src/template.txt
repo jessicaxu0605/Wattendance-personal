@@ -1,0 +1,18 @@
+    const getUser = () => {
+        return new Promise((resolve, reject) => {
+            pool.getConnection((err, connection)=>{
+                if (err) {
+                    reject(err);
+                } else {
+                    connection.query(find_user_query, (err, result)=>{
+                        connection.release();
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(result);
+                        } 
+                    })
+                }
+            })
+        })
+    }
