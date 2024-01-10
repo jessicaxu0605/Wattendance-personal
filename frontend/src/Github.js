@@ -22,8 +22,7 @@ function Heatmap() {
       mode: 'cors',
       method: 'GET',
     }
-    const response = await fetch(`http://localhost:3600/attendance-batched/${userID}`, options);
-    // const response = await fetch(`http://localhost:3600/attendance-batched/${userID}`, options);
+    const response = await fetch(`http://18.222.148.248:3600/attendance-batched/${userID}`, options);
     const result = await response.json();
     setAttendance(result); 
     setDataFetched(true);

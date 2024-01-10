@@ -72,8 +72,7 @@ function Homepage() {
             mode: 'cors',
             method: 'GET',
         }
-        const response = await fetch(`http://localhost:3600/scatter-points`, options);
-        //const response = await fetch(`http://localhost:3600/scatter-points/${courseID}`, options);
+        const response = await fetch(`http://18.222.148.248:3600/scatter-points`, options);
         const result = await response.json();
         const points = result.points;
         const reformatted = points.map((val)=>({ type: 'scatter', label: val.code, data: val.point }));

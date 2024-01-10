@@ -41,8 +41,7 @@ function ProfileClassesTable(){
       mode: 'cors',
       method: 'GET',
     }
-    const response = await fetch(`http://localhost:3600/overall-attendance?userID=${userID}&courseID=${courseID}`, options);
-    //const response = await fetch('http://18.223.107.181:3600/get-user-course-attendance', options);
+    const response = await fetch(`http://18.222.148.248:3600/overall-attendance?userID=${userID}&courseID=${courseID}`, options);
     const result = await response.json();
     return result;
   }

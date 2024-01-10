@@ -43,7 +43,7 @@ function Survey(props) {
               'Content-Type': 'application/json'
             }
           }
-          const response = await fetch('http://localhost:3600/authenticate', options);
+          const response = await fetch('http://18.222.148.248:3600/authenticate', options);
           
           const result = await response.json();
           const status = await response.status;
@@ -79,8 +79,7 @@ function Survey(props) {
             mode: 'cors',
             method: 'GET',
         }
-        const response = await fetch(`http://localhost:3600/enrolled-courses/${userID}`, options);
-        //const response = await fetch('http://18.223.107.181:3600/get-enrolled-courses', options);
+        const response = await fetch(`http://18.222.148.248:3600/enrolled-courses/${userID}`, options);
         const result = await response.json();
         setCourses(result); 
         setDataFetched(true);
@@ -124,8 +123,7 @@ function Survey(props) {
 
             })
         }
-        const response = await fetch('http://localhost:3600/survey-result', options);
-        //const response = await fetch('http://18.223.107.181:3600/survey-result', options);
+        const response = await fetch('http://18.222.148.248:3600/survey-result', options);
         const result = await response.json();
     };
 

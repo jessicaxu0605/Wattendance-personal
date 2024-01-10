@@ -14,9 +14,9 @@ import MenuItem from '@mui/material/MenuItem';
 import { Link } from "react-router-dom";
 import cover from "./images/background.png";
 
-const pages = [{ name: 'Dashboard', link: "home" }, {name:"survey", link:"survey"}];
+const pages = [{ name: 'Dashboard', link: "home" }];
 const signinPages = [{ name: 'Sign up', link: "signup" }, { name: 'Login', link: "login" }]
-const settings = [{ name: 'Profile', link: "profile" }];
+const settings = [{ name: 'Profile', link: "profile" }, {name:"Take Survey", link:"survey"}];
 
 
 function stringToColor(string) {
@@ -82,7 +82,7 @@ function ResponsiveAppBar(props) {
             'Content-Type': 'application/json'
           }
         }
-        const response = await fetch('http://localhost:3600/authenticate', options);
+        const response = await fetch('http://18.222.148.248:3600/authenticate', options);
         
         const result = await response.json();
         const status = await response.status;

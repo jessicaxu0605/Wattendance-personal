@@ -78,7 +78,7 @@ export default function Profile(props) {
           'Content-Type': 'application/json'
         }
       }
-      const response = await fetch('http://localhost:3600/authenticate', options);
+      const response = await fetch('http://18.222.148.248:3600/authenticate', options);
       
       const result = await response.json();
       const status = await response.status;
