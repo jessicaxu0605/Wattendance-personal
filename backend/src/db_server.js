@@ -4,12 +4,21 @@ import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import cron from 'node-cron';
+import apicache from 'apicache';
+import bodyParser from'body-parser';
+import jwt from 'jsonwebtoken';
+import {verifyToken} from './auth_token_middleware.js';
 
 const app = express();
 app.use(express.json());
 app.use(cors({
     origin: '*',
 }));
+
+let cache = apicache.middleware;
+app.use(cache('5 minutes'));
+app.use(bodyParser.json());
+
 const port = 3600;
 dotenv.config();
 const pool = mysql.createPool({
@@ -22,8 +31,15 @@ const pool = mysql.createPool({
     authPlugin: 'mysql_native_password'
 });
 
+
+
 //-----------------------------------------
-//User login management
+//User authentication management
+const secretKey = process.env.SECRET_KEY
+const generateToken = (id)=>{
+    const token = jwt.sign({userID: id}, secretKey, {expiresIn: '5h'});
+    return token;
+}
 
 app.post("/signup", async(req,res) => {
     console.log("\nENDPOINT:/signup")
@@ -51,7 +67,6 @@ app.post("/signup", async(req,res) => {
                         connection.release();
                         console.log("account already exists for email")
                         res.status(409).send({
-                            // 'status': 'unsuccessful',
                             'error': 'existing user'
                         });
                     } else {
@@ -59,16 +74,21 @@ app.post("/signup", async(req,res) => {
                             async (err, result) => {
                                 connection.release();
                                 if (err) throw (err);
-                                else {const id = result.insertId;
-                                res.send({
-                                    // 'status': 'successful',
-                                    'user': {
-                                        'id': id,
-                                        'firstName': firstName,
-                                        'lastName': lastName,
-                                        'email': email,
-                                    }
-                                });}
+                                else {
+                                    const id = result[0].idusers
+                                    const token = generateToken(id)
+                                    res.send(
+                                        {
+                                        'token': token,
+                                        'user': {
+                                            'id': id,
+                                            'firstName': firstName,
+                                            'lastName': lastName,
+                                            'email': email,
+                                            }
+                                        }
+                                    );
+                                }
                             }
                         )
                     }
@@ -100,7 +120,11 @@ app.put("/login", async(req,res) => {
                         connection.release();
                         const hashedPW = result[0].password
                         if (await bcrypt.compare(password, hashedPW)) {
-                            res.send({
+                            const id = result[0].idusers;
+                            const token = generateToken(id)
+                            res.send(
+                                {
+                                'token': token,
                                 'user': {
                                     'id': result[0].idusers,
                                     'firstName': result[0].firstName,
@@ -126,6 +150,36 @@ app.put("/login", async(req,res) => {
     })
 });
 
+app.get('/authenticate', verifyToken, (req, res)=>{
+    console.log("\nENDPOINT:/authenticate");
+    const userID = req.userID;
+    const find_user_query = mysql.format("SELECT * FROM users WHERE idusers = ? LIMIT 1", [userID]);
+
+    pool.getConnection(async(err, connection)=>{
+        if (err) {
+            res.status(500).send({'error':'internal server error'});
+            throw(err);
+        } else {
+            await connection.query(find_user_query, async(err, result)=>{
+                if (err) {
+                    connection.release();
+                    res.status(500).send({'error':'internal server error'});
+                    throw(err);
+                } else {
+                    console.log(userID);
+                    res.send({
+                        'user': {
+                            'id': result[0].idusers,
+                            'firstName': result[0].firstName,
+                            'lastName': result[0].lastName,
+                            'email': result[0].email,
+                        }
+                    });
+                }
+            })
+        }
+    })
+});
 
 
 //-----------------------------------------

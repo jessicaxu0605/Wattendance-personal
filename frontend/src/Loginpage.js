@@ -73,6 +73,7 @@ export default function SignIn(props) {
     const status = await response.status;
     if (status === 200) {
       //setUser();
+      localStorage.setItem('token', result.token);
       props.login(result.user);
       navigate("/profile");
     } else {

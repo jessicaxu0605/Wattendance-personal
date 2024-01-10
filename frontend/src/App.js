@@ -18,46 +18,29 @@ function App() {
   const [user, setUser] = React.useState(null);
 
   const handleLogin = (newUser) => {
-    if (!loginState)
-      setLoginState(true);
+    setLoginState(true);
     setUser(newUser);
   }
   const handleLogout = () => {
-    if (loginState)
-      setLoginState(false);
+    localStorage.removeItem('token');
+    setLoginState(false);
     setUser(null);
   }
 
 
-  let AvailableRoutes;
-  if (loginState) {
-    AvailableRoutes = () => (
-      <Routes>
-        <Route path='/' element={<Landing />} />
-        <Route path='/home' element={<Homepage />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/survey' element={<Survey />} />
-      </Routes>
-    );
-  } else {
-    AvailableRoutes = () => (
-      <Routes>
-        <Route path='/' element={<Landing />} />
-        <Route path='/home' element={<Homepage />} />
-        <Route path='/survey' element={<Survey />} />
-        <Route path='/login' element={<Loginpage loginState={loginState} login={handleLogin} />} />
-        <Route path='/signup' element={<SignUp loginState={loginState} login={handleLogin} />} />
-        <Route path='/profile' element={<Profile />} />
-      </Routes>
-    );
-  }
-
   return (
     <UserContext.Provider value={{ value: user, function: setUser }}>
       <div className="App">
-        <Navbar loginState={loginState} logout={handleLogout} clear={location.pathname === '/' || location.pathname === '/signup' || location.pathname === '/login' ? true : false} />
+        <Navbar loginState={loginState} login={handleLogin} logout={handleLogout} clear={location.pathname === '/' || location.pathname === '/signup' || location.pathname === '/login' ? true : false} />
         <ScrollTop /> {/*listens for change in route; if detected, scroll to top of page; does not render any HTML*/}
-        <AvailableRoutes />
+        <Routes>
+          <Route path='/' element={<Landing loginState={loginState}/>} />
+          <Route path='/home' element={<Homepage />} />
+          <Route path='/survey' element={<Survey loginState={loginState} login={handleLogin}/>} />
+          <Route path='/login' element={<Loginpage loginState={loginState} login={handleLogin} />} />
+          <Route path='/signup' element={<SignUp loginState={loginState} login={handleLogin} />} />
+          <Route path='/profile' element={<Profile loginState={loginState} login={handleLogin}/>} />
+        </Routes>
       </div>
     </UserContext.Provider>
   );

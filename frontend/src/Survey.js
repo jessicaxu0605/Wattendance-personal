@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 
 import UserContext from './UserContext.js';
+import Unauthorized from "./Unauthorized.js";
 
 const font = "'Poppins', sans-serif";
 
@@ -29,11 +30,48 @@ const theme = createTheme({
 });
 
 
-function Survey() {
-    const user = React.useContext(UserContext).value;
-    const userID = user.id;
+function Survey(props) {
+    const [doneAuth, setDoneAuth] = React.useState(false);
+    const tryAuthenticate = async (event) => {
+        const token = localStorage.getItem('token')
+        if (token) {
+          const options = {
+            mode: 'cors',
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          }
+          const response = await fetch('http://localhost:3600/authenticate', options);
+          
+          const result = await response.json();
+          const status = await response.status;
+          if (status === 200) {
+            //setUser();
+            console.log(result);
+            props.login(result.user);
+          }
+          setDoneAuth(true);
+        }
+      }  
+      
+    React.useEffect(()=> {
+        if (!props.loginState) {
+            tryAuthenticate();
+        } else {
+            setDoneAuth(true);
+        }
+    }, []);
     
-    const [courses, setCourses] = React.useState([{courseName:"test", courseCode:"test"}]);
+
+    const user = React.useContext(UserContext).value;
+    let userID;
+    if (props.loginState) {
+        userID = user.id;
+    }
+    
+    const [courses, setCourses] = React.useState([]);
     const [dataFetched, setDataFetched] = React.useState(false);
 
     const getCourses = async() => {
@@ -48,17 +86,16 @@ function Survey() {
         setDataFetched(true);
     }
 
-    
-    React.useEffect(() => {
-        getCourses(); 
-      }, []);
 
-    const menuItems = courses.map(course => (
-        <MenuItem key={course.idcourses} value={course.idcourses}>
-            {`${course.courseCode} (${course.courseName})`}
-        </MenuItem>
-    ));
-    
+        React.useEffect(() => {
+            if (doneAuth) getCourses(); 
+        }, [doneAuth]);
+
+        const menuItems = courses.map(course => (
+            <MenuItem key={course.idcourses} value={course.idcourses}>
+                {`${course.courseCode} (${course.courseName})`}
+            </MenuItem>
+        ));
       
     const [sliderValues, setSliderValues] = useState({
         q1: 1,
@@ -98,6 +135,7 @@ function Survey() {
         setCourse(event.target.value);
     };
 
+    if (doneAuth && props.loginState)
     return (
         <>
             <div style={{
@@ -174,7 +212,11 @@ function Survey() {
 
         </>
     );
-
+    else if (doneAuth) {
+        return(
+          <Unauthorized/>
+        )
+      } else return <></>
 }
 export default Survey;
 

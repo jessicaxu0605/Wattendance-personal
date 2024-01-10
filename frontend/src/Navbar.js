@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { Link } from "react-router-dom";
 import cover from "./images/background.png";
 
-const pages = [{ name: 'Dashboard', link: "home" }];
+const pages = [{ name: 'Dashboard', link: "home" }, {name:"survey", link:"survey"}];
 const signinPages = [{ name: 'Sign up', link: "signup" }, { name: 'Login', link: "login" }]
 const settings = [{ name: 'Profile', link: "profile" }];
 
@@ -70,7 +70,40 @@ function ResponsiveAppBar(props) {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-
+    const [doneAuth, setDoneAuth] = React.useState(false);
+    const tryAuthenticate = async (event) => {
+      const token = localStorage.getItem('token')
+      if (token) {
+        const options = {
+          mode: 'cors',
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+        const response = await fetch('http://localhost:3600/authenticate', options);
+        
+        const result = await response.json();
+        const status = await response.status;
+        if (status === 200) {
+          //setUser();
+          console.log(result.user);
+          props.login(result.user);
+          console.log(props.loginState);
+        }
+        setDoneAuth(true);
+      }
+    }  
+    
+    React.useEffect(()=> {
+      if (!props.loginState) {
+          tryAuthenticate();
+      } else {
+          setDoneAuth(true);
+      }
+  }, []);
+  
     return (
         <AppBar position="fixed" style={{ background: props.clear ? 'rgba(0,0,0,0)' : 'rgba(255, 255, 255, 0.7)', boxShadow: 'none' }}>
             {/* 'rgba(255,255,255,0.7)' */}
