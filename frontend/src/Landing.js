@@ -39,7 +39,7 @@ export default function Types() {
                     </Link>
 
                     <Typography variant="body1" gutterBottom >
-                        Track your attendance easily from University of Waterloo.
+                        Track your attendance easily from the University of Waterloo.
                     </Typography>
 
                 </Stack>
