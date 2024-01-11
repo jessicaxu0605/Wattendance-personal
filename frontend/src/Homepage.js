@@ -37,19 +37,6 @@ const theme = createTheme({
     },
 });
 
-function Copyright() {
-
-    return (
-        <Typography variant="body2" color="text.secondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Wattendance
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 
 function Homepage() {
@@ -147,7 +134,6 @@ function Homepage() {
                     >
                         Track your attendance
                     </Typography>
-                    <Copyright />
                 </Box>
                 {/* End footer */}
             </ThemeProvider>

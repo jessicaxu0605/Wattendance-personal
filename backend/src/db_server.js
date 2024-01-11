@@ -186,7 +186,7 @@ app.get('/authenticate', verifyToken, (req, res)=>{
 //data fetching
 
 //get attendance/date pair per user--used by github-style display on front-end
-app.get("/attendance-batched/:userID", async(req,res) => {
+app.get("/attendance-batched/:userID", verifyToken, async(req,res) => {
     console.log("\nENDPOINT:/attendance-batched");
     const userID = req.params.userID;
 
@@ -430,7 +430,7 @@ app.get("/overall-attendance", async(req,res) => {
     
 })
 
-app.get("/enrolled-courses/:userID", async(req,res) => {
+app.get("/enrolled-courses/:userID", verifyToken, async(req,res) => {
     console.log("\nENDPOINT:/enrolled-courses");
     const userID = req.params.userID;
     
@@ -450,7 +450,7 @@ app.get("/enrolled-courses/:userID", async(req,res) => {
     });
 });
 
-app.post("/survey-result", async(req,res) => {
+app.post("/survey-result", verifyToken, async(req,res) => {
     console.log("\nENDPOINT:/survey-result");
     const userID = req.body.userID;
     const courseID = req.body.courseID;
