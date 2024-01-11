@@ -2,7 +2,8 @@
 #### [Wattendance Live Demo 🔗](http://wattendance.s3-website.us-east-2.amazonaws.com/)
 Wattendance is a full-stack web application that utilizes facial recognition to automatically record lecture attendence for students in real time. 
 
-<img width="723" alt="Wattendance Landing Page" src="https://github.com/jessicaxu0605/wattendance/assets/91295485/4c741547-7557-4b2f-86b5-e3ff480755a9">
+<img width="1437" alt="Wattendance Landing Page" src="https://github.com/jessicaxu0605/wattendance-personal/assets/91295485/6d852464-2109-417d-abe9-565c0e967bb2">
+
 
 ## Components
 
