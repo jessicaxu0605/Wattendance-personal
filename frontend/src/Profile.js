@@ -8,15 +8,15 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Heatmap from './Github';
-import NoOfSubmissions from './userCard';
+import Heatmap from './components/Github';
+import NoOfSubmissions from './components/userCard';
 import { Avatar } from '@mui/material';
 import UserContext from './UserContext';
-import ProfileClassesTable from './ProfileClassesTable';
+import ProfileClassesTable from './components/ProfileClassesTable';
 import cover from "./images/background.png";
 import Button from '@mui/material/Button';
 import Unauthorized from './Unauthorized';
-import SurveyLink from './SurveyLink';
+import SurveyLink from './components/SurveyLink';
 
 
 
@@ -64,6 +64,7 @@ function stringAvatar(name) {
     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
   };
 }
+
 
 export default function Profile(props) {
   const [doneAuth, setDoneAuth] = React.useState(false);
@@ -201,3 +202,4 @@ export default function Profile(props) {
     )
   } else return <></>
 }
+

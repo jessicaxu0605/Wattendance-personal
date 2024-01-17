@@ -6,7 +6,7 @@ import React from "react";
 import Tooltip from '@uiw/react-tooltip';
 import HeatMap from '@uiw/react-heat-map';
 
-import UserContext from './UserContext.js';
+import UserContext from '../UserContext.js';
 
 import "./Github.css";
 

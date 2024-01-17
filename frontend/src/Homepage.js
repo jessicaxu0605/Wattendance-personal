@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import cover from "./images/background.png";
 import { GoogleSpreadsheet } from "google-spreadsheet";
-import Slider from './Slider';
+import Slider from './components/Slider';
 import Stack from '@mui/material/Stack';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Button from '@mui/material/Button';

@@ -1,8 +1,8 @@
-import ScrollTop from './ScrollTop';
+import ScrollTop from './components/ScrollTop.js';
 import Homepage from './Homepage';
 import Loginpage from './Loginpage';
 import Profile from './Profile';
-import Navbar from './Navbar';
+import Navbar from './components/Navbar.js';
 import './App.css';
 import * as React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';

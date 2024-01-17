@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from "react-router-dom";
 import Button from '@mui/material/Button';
-import cover from "./images/background.png";
+import cover from "../images/background.png";
 
 const font = "'Poppins', sans-serif";
 
